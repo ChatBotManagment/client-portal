@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { AuthUtils } from 'app/core/auth/auth.utils';
 import { UserService } from 'app/core/user/user.service';
 import { catchError, Observable, of, switchMap, throwError } from 'rxjs';
-
+import {AuthService as Auth0Service} from "@auth0/auth0-angular";
 @Injectable({providedIn: 'root'})
 export class AuthService
 {
@@ -15,6 +15,7 @@ export class AuthService
     constructor(
         private _httpClient: HttpClient,
         private _userService: UserService,
+        private _auth0Service: Auth0Service
     )
     {
     }
@@ -67,13 +68,19 @@ export class AuthService
      */
     signIn(credentials: { email: string; password: string }): Observable<any>
     {
+        console.log('signIn(credentials: { email: string; password: string }): Observable<any>');
         // Throw error, if the user is already logged in
         if ( this._authenticated )
         {
             return throwError('User is already logged in.');
         }
 
-        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
+
+        this._auth0Service.loginWithRedirect();
+
+
+
+/*        return this._httpClient.post('api/auth/sign-in', credentials).pipe(
             switchMap((response: any) =>
             {
                 // Store the access token in the local storage
@@ -88,7 +95,7 @@ export class AuthService
                 // Return a new observable with the response
                 return of(response);
             }),
-        );
+        );*/
     }
 
     /**
@@ -96,6 +103,11 @@ export class AuthService
      */
     signInUsingToken(): Observable<any>
     {
+
+        console.log('signInUsingToken(): Observable<any>');
+        // this._auth0Service.loginWithPopup()
+
+
         // Sign in using the token
         return this._httpClient.post('api/auth/sign-in-with-token', {
             accessToken: this.accessToken,

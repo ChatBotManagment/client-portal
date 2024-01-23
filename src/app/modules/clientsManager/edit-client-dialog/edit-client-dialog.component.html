@@ -1,0 +1,52 @@
+<h1 mat-dialog-title class="text-xl font-bold">
+    {{ data._id? 'Edit "' + data.name +'"': 'Create Client' }} <small *ngIf="data._id" class="">({{data._id}})</small> </h1>
+<div mat-dialog-content>
+
+    <form class="flex flex-col max-w[150px] mt-4" [formGroup]="yourForm">
+
+        <mat-form-field appearance="outline">
+            <mat-label>Name</mat-label>
+            <input matInput  id="name" type="text" formControlName="name">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>secret</mat-label>
+            <input matInput  id="secret" type="text" formControlName="secret">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>database</mat-label>
+            <input matInput  id="database" type="text" formControlName="database">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>openai_api_key</mat-label>
+            <input matInput  id="openai_api_key" type="text" formControlName="openai_api_key">
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>openai_organization</mat-label>
+            <input matInput  id="openai_organizationa" type="text" formControlName="openai_organization">
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline">
+            <mat-label>metadata</mat-label>
+            <textarea matInput  id="metadataa" type="text" formControlName="metadata"></textarea>
+        </mat-form-field>
+
+
+
+
+
+
+        <!-- Add other input fields here -->
+
+    </form>
+
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">No Thanks</button>
+    <button mat-button (click)="onSubmit()" cdkFocusInitial>Ok</button>
+</div>

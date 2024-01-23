@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { UserService } from 'app/core/user/user.service';
 import { User } from 'app/core/user/user.types';
 import { Subject, takeUntil } from 'rxjs';
+import {AuthService} from "@auth0/auth0-angular";
 
 @Component({
     selector       : 'user',
@@ -36,7 +37,8 @@ export class UserComponent implements OnInit, OnDestroy
     constructor(
         private _changeDetectorRef: ChangeDetectorRef,
         private _router: Router,
-        private _userService: UserService,
+        // private _userService: UserService,
+        private _auth0: AuthService,
     )
     {
     }
@@ -51,9 +53,9 @@ export class UserComponent implements OnInit, OnDestroy
     ngOnInit(): void
     {
         // Subscribe to user changes
-        this._userService.user$
+        this._auth0.user$
             .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((user: User) =>
+            .subscribe((user: any) =>
             {
                 this.user = user;
 
@@ -90,10 +92,9 @@ export class UserComponent implements OnInit, OnDestroy
         }
 
         // Update the user
-        this._userService.update({
-            ...this.user,
-            status,
-        }).subscribe();
+        // this._userService.update({
+        //     ...this.user,
+        // }).subscribe();
     }
 
     /**
@@ -101,6 +102,7 @@ export class UserComponent implements OnInit, OnDestroy
      */
     signOut(): void
     {
+        this._auth0.logout({ logoutParams: { returnTo: document.location.origin } })
         this._router.navigate(['/sign-out']);
     }
 }

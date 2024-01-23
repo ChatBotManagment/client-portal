@@ -1,4 +1,4 @@
-import { NgIf } from '@angular/common';
+import {AsyncPipe, JsonPipe, NgIf} from '@angular/common';
 import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormsModule, NgForm, ReactiveFormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,6 +11,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
+import {AuthService as Auth0Service} from "@auth0/auth0-angular";
 
 @Component({
     selector     : 'auth-sign-in',
@@ -18,7 +19,7 @@ import { AuthService } from 'app/core/auth/auth.service';
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations,
     standalone   : true,
-    imports      : [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule],
+    imports: [RouterLink, FuseAlertComponent, NgIf, FormsModule, ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule, MatIconModule, MatCheckboxModule, MatProgressSpinnerModule, AsyncPipe, JsonPipe],
 })
 export class AuthSignInComponent implements OnInit
 {
@@ -39,6 +40,7 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
+        public auth: Auth0Service,
     )
     {
     }
@@ -52,6 +54,14 @@ export class AuthSignInComponent implements OnInit
      */
     ngOnInit(): void
     {
+        const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
+
+        this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
+            if(isAuthenticated){
+                this._router.navigateByUrl(redirectURL);
+            }
+        });
+
         // Create the form
         this.signInForm = this._formBuilder.group({
             email     : ['hughes.brian@company.com', [Validators.required, Validators.email]],
@@ -69,8 +79,10 @@ export class AuthSignInComponent implements OnInit
      */
     signIn(): void
     {
+
+        this.auth.loginWithPopup();
         // Return if the form is invalid
-        if ( this.signInForm.invalid )
+       /* if ( this.signInForm.invalid )
         {
             return;
         }
@@ -113,6 +125,6 @@ export class AuthSignInComponent implements OnInit
                     // Show the alert
                     this.showAlert = true;
                 },
-            );
+            );*/
     }
 }

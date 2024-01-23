@@ -1,8 +1,19 @@
 export interface User
 {
-    id: string;
-    name: string;
+    // id: string;
+    // name: string;
+    // email: string;
+    // avatar?: string;
+    // status?: string;
     email: string;
-    avatar?: string;
-    status?: string;
+    email_verified: string;
+    family_name: string;
+    given_name: string;
+    locale: string;
+    name: string;
+    nickname: string;
+    picture: string;
+    sub: string;
+    updated_at: string;
+
 }

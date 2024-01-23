@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { User } from 'app/core/user/user.types';
 import { map, Observable, ReplaySubject, tap } from 'rxjs';
+import {AuthService} from "@auth0/auth0-angular";
 
 @Injectable({providedIn: 'root'})
 export class UserService
@@ -11,7 +12,7 @@ export class UserService
     /**
      * Constructor
      */
-    constructor(private _httpClient: HttpClient)
+    constructor(private _httpClient: HttpClient, private authService: AuthService)
     {
     }
 

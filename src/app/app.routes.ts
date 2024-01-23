@@ -1,8 +1,9 @@
-import { Route } from '@angular/router';
-import { initialDataResolver } from 'app/app.resolvers';
-import { AuthGuard } from 'app/core/auth/guards/auth.guard';
-import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
-import { LayoutComponent } from 'app/layout/layout.component';
+import {Route} from '@angular/router';
+import {initialDataResolver} from 'app/app.resolvers';
+import {AuthGuard } from 'app/core/auth/guards/auth.guard';
+// import { AuthGuard } from '@auth0/auth0-angular';
+import {NoAuthGuard} from 'app/core/auth/guards/noAuth.guard';
+import {LayoutComponent} from 'app/layout/layout.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -64,7 +65,32 @@ export const appRoutes: Route[] = [
         ]
     },
 
-    // Admin routes
+
+
+    // Hazem Routes
+    {
+        path: '',
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
+        component: LayoutComponent,
+        resolve: {
+            initialData: initialDataResolver
+        },
+        children: [
+            // Clients Manager (Hazem)
+            {path: 'clients', children: [
+                    {path: '', loadChildren: () => import('app/modules/clientsManager/clients-manager.routes')},
+
+                ]
+            }
+        ],
+    },
+
+
+
+
+
+            // Admin routes
     {
         path: '',
         canActivate: [AuthGuard],

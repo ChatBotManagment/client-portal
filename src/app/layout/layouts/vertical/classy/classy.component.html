@@ -18,22 +18,22 @@
                     src="assets/images/logo/logo.svg">
             </div>
             <!-- Components -->
-            <div class="flex items-center ml-auto">
+            <div class="flex items-center ml-auto" *ngIf="user">
                 <notifications></notifications>
                 <user [showAvatar]="false"></user>
             </div>
         </div>
         <!-- User -->
-        <div class="flex flex-col items-center w-full p-4">
+        <div class="flex flex-col items-center w-full p-4" *ngIf="user">
             <div class="relative w-24 h-24">
                 <img
                     class="w-full h-full rounded-full"
-                    *ngIf="user.avatar"
-                    [src]="user.avatar"
+                    *ngIf="user.picture"
+                    [src]="user.picture"
                     alt="User avatar">
                 <mat-icon
                     class="icon-size-24"
-                    *ngIf="!user.avatar"
+                    *ngIf="!user.picture"
                     [svgIcon]="'heroicons_solid:user-circle'"></mat-icon>
             </div>
             <div class="flex flex-col items-center justify-center w-full mt-6">
