@@ -3,13 +3,9 @@ import { Routes } from '@angular/router';
 import {ClientsListComponent} from "./clients-list/clients-list.component";
 
 export default [
+
     {
-        path      : '',
-        pathMatch : 'full',
-        redirectTo: 'clients',
-    },
-    {
-        path: 'clients',
+        path: '',
         component: ClientsListComponent,
     },
 /*    {

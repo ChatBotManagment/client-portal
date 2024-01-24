@@ -1,20 +1,21 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {FormControl, FormGroup, ReactiveFormsModule} from "@angular/forms";
-import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {MatInputModule} from "@angular/material/input";
+import { CommonModule } from '@angular/common';
+import {FormControl, FormGroup, FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
 
 @Component({
-    selector: 'app-edit-client-dialog',
-    standalone: true,
-    imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatInputModule, MatButtonModule],
-    templateUrl: './edit-client-dialog.component.html',
-    styleUrls: ['./edit-client-dialog.component.scss']
+  selector: 'app-create-update-rooms-dialog',
+  standalone: true,
+    imports: [CommonModule, FormsModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule],
+  templateUrl: './create-update-rooms-dialog.component.html',
+  styleUrls: ['./create-update-rooms-dialog.component.scss']
 })
-export class EditClientDialogComponent implements OnInit {
+export class CreateUpdateRoomsDialogComponent implements OnInit {
     constructor(
-        public dialogRef: MatDialogRef<EditClientDialogComponent>,
+        public dialogRef: MatDialogRef<CreateUpdateRoomsDialogComponent>,
         @Inject(MAT_DIALOG_DATA) public data: any
     ) {
     }

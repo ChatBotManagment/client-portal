@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {CommonModule, DOCUMENT} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
 import {AuthService} from "@auth0/auth0-angular";
@@ -16,7 +16,7 @@ import {EditClientDialogComponent} from "../edit-client-dialog/edit-client-dialo
     templateUrl: './clients-list.component.html',
     styleUrls: ['./clients-list.component.scss']
 })
-export class ClientsListComponent {
+export class ClientsListComponent implements OnInit {
     clients: any[] = [];
 
     constructor(
@@ -26,15 +26,13 @@ export class ClientsListComponent {
     ) {
     }
 
-    fetchClients() {
-        this.clientsService.fetchClients().subscribe((client) => {
-            this.clients = client;
-            console.log(client);
-        });
-    }
 
     ngOnInit(): void {
-        this.fetchClients();
+        this.clientsService.clients$.subscribe((clients) => {
+            this.clients = clients;
+        });
+        this.clientsService.fetchClients().subscribe();
+
     }
 
     openEditDialog(client: any) {
@@ -47,12 +45,16 @@ export class ClientsListComponent {
             });
 
         dialogRef.afterClosed().subscribe((result) => {
-
-            console.log('The dialog was closed', result);
+            if (result._id) {
+                this.clientsService.updateClients(result).subscribe();
+            } else {
+                this.clientsService.createClients(result).subscribe();
+            }
         });
     }
 
-    addClient() {
 
+    delete(client: any) {
+        this.clientsService.deleteClients(client._id).subscribe();
     }
 }

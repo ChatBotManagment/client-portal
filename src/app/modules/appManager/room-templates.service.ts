@@ -1,50 +1,42 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "../../environments/environments";
 import {BehaviorSubject, tap} from "rxjs";
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
-export class ClientsService {
-
-    constructor(private httpClient: HttpClient) {
-    }
-    clients$ub : BehaviorSubject<any[]> =  new BehaviorSubject<any[]>([]);
-    get clients$() {
-        return this.clients$ub.asObservable();
+export class RoomTemplatesService {
+    private roomTemplates$ub: BehaviorSubject<any[]> = new BehaviorSubject<any[]>([]);
+    get roomTemplates$() {
+        return this.roomTemplates$ub.asObservable();
     }
 
+  constructor(private httpClient: HttpClient) { }
 
-    public readonly selectedClient$ub: BehaviorSubject<string> =  new BehaviorSubject<string>('');
-
-
-    apiUrl = `${environment.chatbotApiUrl}/client-info`;
-
-    fetchClients() {
+    apiUrl = `${environment.chatbotApiUrl}/roomTemplates`;
+    fetchAll() {
         return this.httpClient.get<any[]>(this.apiUrl).pipe(
             tap((clients) => {
-                this.clients$ub.next(clients);
+                this.roomTemplates$ub.next(clients);
             })
         );
     }
-
-    fetchClient(id: string) {
-        return this.httpClient.get<any[]>(this.apiUrl + '/' + id);
+    getRoom(id: string) {
+        return this.httpClient.get<any[]>(`${this.apiUrl}/${id}`);
     }
 
     updateClients(client: any) {
         return this.httpClient.patch<any[]>(`${this.apiUrl}/${client._id}`, client).pipe(
             tap((clients) => {
-                this.fetchClients().subscribe();
+                this.fetchAll().subscribe();
             })
         );
     }
-
     createClients(client: any) {
         return this.httpClient.post<any[]>(this.apiUrl, client).pipe(
             tap((clients) => {
-                this.fetchClients().subscribe();
+                this.fetchAll().subscribe();
             })
 
         );
@@ -53,7 +45,7 @@ export class ClientsService {
     deleteClients(id: string) {
         return this.httpClient.delete<any[]>(`${this.apiUrl}/${id}`).pipe(
             tap((clients) => {
-                this.fetchClients().subscribe();
+                this.fetchAll().subscribe();
             })
         );
     }

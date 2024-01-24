@@ -73,13 +73,16 @@ export const appRoutes: Route[] = [
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
         component: LayoutComponent,
-        resolve: {
-            initialData: initialDataResolver
-        },
+
         children: [
             // Clients Manager (Hazem)
             {path: 'clients', children: [
                     {path: '', loadChildren: () => import('app/modules/clientsManager/clients-manager.routes')},
+
+                ]
+            },
+            {path: 'app', children: [
+                    {path: '', loadChildren: () => import('app/modules/appManager/app-manager.routes')},
 
                 ]
             }

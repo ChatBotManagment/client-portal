@@ -1,5 +1,6 @@
 export const environment = {
   production: false,
+    chatbotApiUrl: 'http://localhost:3500',
   authOConfiguration: {
     domain: 'dev-d3kvtws4.us.auth0.com',
     clientId: 'tfqZAMepc4Cev1BkIrK4plFVOxjZALII',

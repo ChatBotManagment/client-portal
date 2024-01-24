@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, provideHttpClient} from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 import { LuxonDateAdapter } from '@angular/material-luxon-adapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
@@ -12,9 +12,15 @@ import { provideTransloco } from 'app/core/transloco/transloco.provider';
 import { mockApiServices } from 'app/mock-api';
 import {provideAuth0} from "@auth0/auth0-angular";
 import {environment} from "./environments/environments";
+import {AuthInterceptor} from "./interceptor/auth.interceptor";
 
 export const appConfig: ApplicationConfig = {
     providers: [
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: AuthInterceptor,
+            multi: true,
+        },
         provideAnimations(),
         provideHttpClient(),
         provideAuth0(environment.authOConfiguration),
@@ -47,7 +53,8 @@ export const appConfig: ApplicationConfig = {
         provideTransloco(),
 
         // Fuse
-        provideAuth(),
+        // provideAuth(),
+
         provideIcons(),
         provideFuse({
             mockApi: {
