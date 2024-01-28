@@ -1,7 +1,6 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {CommonModule, DOCUMENT} from "@angular/common";
+import {Component, OnInit} from '@angular/core';
+import {CommonModule} from "@angular/common";
 import {MatIconModule} from "@angular/material/icon";
-import {AuthService} from "@auth0/auth0-angular";
 import {MatButtonModule} from "@angular/material/button";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {RouterLink} from "@angular/router";
@@ -20,7 +19,6 @@ export class ClientsListComponent implements OnInit {
     clients: any[] = [];
 
     constructor(
-        public auth: AuthService,
         private clientsService: ClientsService,
         public dialog: MatDialog
     ) {
@@ -29,7 +27,12 @@ export class ClientsListComponent implements OnInit {
 
     ngOnInit(): void {
         this.clientsService.clients$.subscribe((clients) => {
-            this.clients = clients;
+            this.clients = clients.map((client) => {
+                const client1 = {...client};
+                delete client1['walletLog'];
+                client1.walletLogLength = client?.walletLog?.length || 0;
+                return client1;
+            });
         });
         this.clientsService.fetchClients().subscribe();
 

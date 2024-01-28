@@ -11,7 +11,6 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertComponent, FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import {AuthService as Auth0Service} from "@auth0/auth0-angular";
 
 @Component({
     selector     : 'auth-sign-in',
@@ -40,7 +39,7 @@ export class AuthSignInComponent implements OnInit
         private _authService: AuthService,
         private _formBuilder: UntypedFormBuilder,
         private _router: Router,
-        public auth: Auth0Service,
+         // public auth: Auth0Service,
     )
     {
     }
@@ -56,7 +55,7 @@ export class AuthSignInComponent implements OnInit
     {
         const redirectURL = this._activatedRoute.snapshot.queryParamMap.get('redirectURL') || '/signed-in-redirect';
 
-        this.auth.isAuthenticated$.subscribe((isAuthenticated) => {
+        this._authService.isAuthenticated$.subscribe((isAuthenticated) => {
             if(isAuthenticated){
                 this._router.navigateByUrl(redirectURL);
             }
@@ -80,7 +79,7 @@ export class AuthSignInComponent implements OnInit
     signIn(): void
     {
 
-        this.auth.loginWithPopup();
+        this._authService.loginWithPopup().subscribe();
         // Return if the form is invalid
        /* if ( this.signInForm.invalid )
         {

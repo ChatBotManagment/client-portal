@@ -3,7 +3,7 @@ import {CanActivateChildFn, CanActivateFn, Router} from '@angular/router';
 import {AuthService} from 'app/core/auth/auth.service';
 import {of, switchMap} from 'rxjs';
 
-export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
+export const ClientAuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
     const router: Router = inject(Router);
     // Check the authentication status
     const authService = inject(AuthService)
@@ -18,6 +18,11 @@ export const AuthGuard: CanActivateFn | CanActivateChildFn = (route, state) => {
                 return of(urlTree);
             }
 
+            if (!authService.user.user_roles.includes('superAdmin') && !authService.user.user_roles.includes('clientOwner')   ) {
+                const redirectURL = state.url === '/sign-out' ? '' : `redirectURL=${state.url}`;
+                const urlTree = router.parseUrl(`500-error?${redirectURL}`);
+                return of(urlTree);
+            }
 
             // Allow the access
             return of(true);

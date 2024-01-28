@@ -19,10 +19,8 @@ export class AuthInterceptor implements HttpInterceptor {
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
         console.log('Intercepting request:', req);
-        debugger
         return this.auth.idTokenClaims$.pipe(
             switchMap((token) => {
-                debugger
                 console.log('Token inside intercept:', token?.__raw);
                 // Clone the request to add the new header.
                 const authReq = req.clone({

@@ -29,6 +29,7 @@ export class EditClientDialogComponent implements OnInit {
             database: new FormControl(this.data.database),
             openai_api_key: new FormControl(this.data.openai_api_key),
             openai_organization: new FormControl(this.data.openai_organization),
+            wallet: new FormControl(this.data.wallet),
             metadata: new FormControl(JSON.stringify(this.data.metadata)),
             // add other form controls here
         });

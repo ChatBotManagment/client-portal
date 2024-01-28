@@ -1,4 +1,4 @@
-<div class="flex flex-row">
+<div class="flex flex-row w-full">
     <fuse-vertical-navigation
         class="dark bg-gray-900 print:hidden"
         [mode]="isScreenSmall ? 'over' : 'side'"
@@ -22,7 +22,7 @@
             </div>
         </ng-container>
     </fuse-vertical-navigation>
-    <div>
+    <div class="flex-grow">
         <router-outlet></router-outlet>
     </div>
 </div>

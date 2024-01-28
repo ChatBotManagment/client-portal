@@ -5,6 +5,7 @@ export interface User
     // email: string;
     // avatar?: string;
     // status?: string;
+    user_roles: string[];
     email: string;
     email_verified: string;
     family_name: string;

@@ -1,9 +1,10 @@
 import {Route} from '@angular/router';
 import {initialDataResolver} from 'app/app.resolvers';
 import {AuthGuard } from 'app/core/auth/guards/auth.guard';
-// import { AuthGuard } from '@auth0/auth0-angular';
 import {NoAuthGuard} from 'app/core/auth/guards/noAuth.guard';
 import {LayoutComponent} from 'app/layout/layout.component';
+import {SuperAdminAuthGuard} from "./core/auth/guards/superAdminAuth.guard";
+import {ClientAuthGuard} from "./core/auth/guards/clientAuth.guard";
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -23,8 +24,8 @@ export const appRoutes: Route[] = [
     // Auth routes for guests
     {
         path: '',
-        canActivate: [NoAuthGuard],
-        canActivateChild: [NoAuthGuard],
+        // canActivate: [NoAuthGuard],
+        // canActivateChild: [NoAuthGuard],
         component: LayoutComponent,
         data: {
             layout: 'empty'
@@ -70,19 +71,23 @@ export const appRoutes: Route[] = [
     // Hazem Routes
     {
         path: '',
-        canActivate: [AuthGuard],
-        canActivateChild: [AuthGuard],
         component: LayoutComponent,
 
         children: [
             // Clients Manager (Hazem)
-            {path: 'clients', children: [
+
+            {
+                // canActivate: [SuperAdminAuthGuard],
+                canActivateChild: [SuperAdminAuthGuard],
+                path: 'clients', children: [
                     {path: '', loadChildren: () => import('app/modules/clientsManager/clients-manager.routes')},
 
                 ]
             },
-            {path: 'app', children: [
+            {
+                path: 'app', children: [
                     {path: '', loadChildren: () => import('app/modules/appManager/app-manager.routes')},
+
 
                 ]
             }
@@ -228,6 +233,7 @@ export const appRoutes: Route[] = [
 
             // 404 & Catch all
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.routes')},
+            {path: '500-error', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-500/error-500.routes')},
             {path: '**', redirectTo: '404-not-found'}
         ]
     }

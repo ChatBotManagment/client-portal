@@ -2,6 +2,7 @@
 import { FuseNavigationItem } from '@fuse/components/navigation';
 
 export const defaultNavigation: FuseNavigationItem[] = [
+
     {
         id      : 'dashboards',
         title   : 'Dashboards',

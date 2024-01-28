@@ -18,8 +18,8 @@ import { SearchComponent } from 'app/layout/common/search/search.component';
 import { ShortcutsComponent } from 'app/layout/common/shortcuts/shortcuts.component';
 import { UserComponent } from 'app/layout/common/user/user.component';
 import { Subject, takeUntil } from 'rxjs';
-import {AuthService} from "@auth0/auth0-angular";
-// import {UserService} from "../../../../core/user/user.service";
+import {AuthService} from "../../../../core/auth/auth.service";
+import {UserService} from "../../../../core/user/user.service";
 
 @Component({
     selector     : 'classy-layout',
@@ -39,11 +39,9 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
      * Constructor
      */
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _router: Router,
         private _navigationService: NavigationService,
-        // private _userService: UserService,
-        public auth0: AuthService,
+        // public auth0: AuthService,
+        public _userService: UserService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
     )
@@ -80,7 +78,7 @@ export class ClassyLayoutComponent implements OnInit, OnDestroy
             });
 
         // Subscribe to the user service
-        this.auth0.user$
+        this._userService.user$
             .pipe((takeUntil(this._unsubscribeAll)))
             .subscribe((user: any) =>
             {

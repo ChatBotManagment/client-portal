@@ -11,6 +11,7 @@ import {Subject, takeUntil} from "rxjs";
 import {NavigationService} from "../../../core/navigation/navigation.service";
 import {FuseMediaWatcherService} from "../../../../@fuse/services/media-watcher";
 import {ClientsService} from "../../clientsManager/clients.service";
+import {ClientInfoService} from "../client-info.service";
 
 @Component({
     selector: 'app-app-manager-layout',
@@ -33,7 +34,7 @@ export class AppManagerLayoutComponent {
         private _navigationService: NavigationService,
         private _fuseMediaWatcherService: FuseMediaWatcherService,
         private _fuseNavigationService: FuseNavigationService,
-        private clientsService: ClientsService,
+        private clientInfoService: ClientInfoService,
     ) {
     }
 
@@ -57,8 +58,15 @@ export class AppManagerLayoutComponent {
      */
     ngOnInit(): void {
         const clientId =  this._activatedRoute.snapshot.params.clientId;
-        this.clientsService.selectedClient$ub.next(clientId);
+        this.clientInfoService.fetchClient(clientId).subscribe();
         this.navigation  = [
+            {
+                id: 'clients',
+                title: 'Clients',
+                type: 'basic',
+                icon: 'heroicons_outline:banknotes',
+                link: `/clients`,
+            },
             {
                 id: 'app',
                 title: 'Applications',
@@ -66,6 +74,13 @@ export class AppManagerLayoutComponent {
                 type: 'group',
                 icon: 'heroicons_outline:home',
                 children: [
+                    {
+                        id: 'app.ClientInfo',
+                        title: 'client Info',
+                        type: 'basic',
+                        icon: 'heroicons_outline:banknotes',
+                        link: `/app/${clientId}/client-info`,
+                    },
                     {
                         id: 'app.people',
                         title: 'People',
