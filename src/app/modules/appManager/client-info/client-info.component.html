@@ -1,0 +1,16 @@
+<main class="flex w-full ">
+    <div class="p-4 w-full overflow-y-auto overflow-x-hidden ">
+        <div class="flex justify-between items-end mb-4">
+            <h1 class="text-xl"> Client Info </h1>
+        </div>
+        <p>client Info:</p>
+        <div class="w-200 overflow-auto bg-accent-800 px-4 py-2 mb-2 text-sm text-white min-h-10">
+            <pre>{{ client | json }}</pre>
+        </div>
+
+        <p>walletLog:</p>
+        <div class="w-200 overflow-auto bg-accent-800 px-4 py-2 mb-2 text-sm text-white min-h-10 max-h-100">
+            <pre>{{ walletLog | json }}</pre>
+        </div>
+    </div>
+</main>

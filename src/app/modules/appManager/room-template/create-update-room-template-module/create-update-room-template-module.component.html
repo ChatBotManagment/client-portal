@@ -1,0 +1,36 @@
+<div class="relative">
+    <h1 mat-dialog-title class="text-xl font-bold sticky top-0 py-2 bg-white z-10 ">
+        {{ data._id ? 'Edit "' + data.name + '"' : 'Create Client' }} <small *ngIf="data._id" class="">({{ data._id }}
+        )</small></h1>
+    <div>
+
+        <form class="flex flex-col max-w[150px] mt-4" [formGroup]="yourForm">
+
+
+            <h1 class="text-lg  mb-2">Prompt</h1>
+            <mat-form-field appearance="outline">
+                <mat-label>prompt</mat-label>
+                <textarea matInput id="prompt" type="text" formControlName="prompt"></textarea>
+            </mat-form-field>
+
+            <div class="flex flex-row justify-between mb-2">
+                <h3 class="text-lg">Other</h3>
+                <button mat-button color="primary" (click)="resetData()">SetDefault</button>
+            </div>
+            <mat-form-field appearance="outline">
+                <mat-label>Room Template Data <small> (without prompt)</small></mat-label>
+                <textarea matInput id="templateData" type="text" rows="25" formControlName="templateData"
+                          placeholder='{ "someData" : "otherData"}'></textarea>
+            </mat-form-field>
+
+
+            <!-- Add other input fields here -->
+
+        </form>
+
+    </div>
+    <div class="flex justify-end sticky bottom-0 py-2 bg-white z-10">
+        <button mat-button (click)="onNoClick()">No Thanks</button>
+        <button mat-button (click)="onSubmit()" cdkFocusInitial>Ok</button>
+    </div>
+</div>
