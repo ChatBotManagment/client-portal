@@ -11,7 +11,7 @@ import { provideIcons } from 'app/core/icons/icons.provider';
 import { provideTransloco } from 'app/core/transloco/transloco.provider';
 import { mockApiServices } from 'app/mock-api';
 import {provideAuth0} from "@auth0/auth0-angular";
-import {environment} from "./environments/environments";
+import {environment} from "./environments/environment";
 import {AuthInterceptor} from "./interceptor/auth.interceptor";
 
 export const appConfig: ApplicationConfig = {
